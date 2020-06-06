@@ -170,9 +170,9 @@ void HAL_PCD_MspInit(PCD_HandleTypeDef *hpcd)
 #endif /* USE_USB_HS_IN_FS */
 
 #ifdef USB_HS_PHYC
-	__HAL_RCC_OTGPHYC_CLK_ENABLE();
+	  __HAL_RCC_OTGPHYC_CLK_ENABLE();
 #endif /* USB_HS_PHYC */
-    
+
     /* Enable USB HS Clocks */
     __HAL_RCC_USB_OTG_HS_CLK_ENABLE();
 
