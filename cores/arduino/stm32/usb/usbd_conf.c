@@ -169,6 +169,10 @@ void HAL_PCD_MspInit(PCD_HandleTypeDef *hpcd)
     __HAL_RCC_USB_OTG_HS_ULPI_CLK_ENABLE();
 #endif /* USE_USB_HS_IN_FS */
 
+#ifdef USB_HS_PHYC
+	__HAL_RCC_OTGPHYC_CLK_ENABLE();
+#endif /* USB_HS_PHYC */
+    
     /* Enable USB HS Clocks */
     __HAL_RCC_USB_OTG_HS_CLK_ENABLE();
 
@@ -480,13 +484,15 @@ USBD_StatusTypeDef USBD_LL_Init(USBD_HandleTypeDef *pdev)
   g_hpcd.Init.dma_enable = DISABLE;
 #ifdef USE_USB_HS_IN_FS
   g_hpcd.Init.phy_itface = PCD_PHY_EMBEDDED;
+#elif defined(USB_HS_PHYC)
+  g_hpcd.Init.phy_itface = PCD_PHY_UTMI;
 #else
   g_hpcd.Init.phy_itface = PCD_PHY_ULPI;
 #endif
   g_hpcd.Init.speed = PCD_SPEED_HIGH;
   g_hpcd.Init.vbus_sensing_enable = VBUS_SENSING;
   g_hpcd.Init.use_external_vbus = DISABLE;
-#else /* USE_USB_FS */
+#else /* USE_USB_HS */
 #ifdef USB_OTG_FS
   g_hpcd.Instance = USB_OTG_FS;
   g_hpcd.Init.use_dedicated_ep1 = DISABLE;
